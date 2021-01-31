@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +32,27 @@ namespace SportsStore
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "pagination",
-                    template: "Produkty/Strona{productPage}",
-                    defaults: new { Controller = "Product", action = "List"}
+                    name: null,
+                    template: "{category}/Strona{productPage:int}",
+                    defaults: new { controller = "Product", action = "List" }
                     );
-
                 routes.MapRoute(
-                    name: "default",
+                    name: null,
+                    template: "Strona{productPage:int}",
+                    defaults: new { controller = "Product", action = "List", productPage = 1}
+                    );
+                routes.MapRoute(
+                    name: null,
+                    template: "{category}",
+                    defaults: new { controller = "Product", action = "List", productPage = 1 }
+                    );
+                routes.MapRoute(
+                    name: null,
+                    template: "",
+                    defaults: new { controller = "Product", action = "List", productPage = 1 }
+                    );
+                routes.MapRoute(
+                    name: null,
                     template: "{controller=Product}/{action=List}/{id?}"
                     );
             });
